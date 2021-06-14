@@ -33,13 +33,18 @@ public class LoginServlet extends HttpServlet {
 	 	 String name="^[(A-Z){1}][a-z]{3,}";
          Pattern compile =Pattern.compile( name ); 
 		 Matcher match= compile.matcher(user);
-	     if(match.matches()) {
+		 
+		 String pass="^((?=.*[A-Z])(?=.*[0-9])[@a-zA-Z0-9]{8,})";
+		 Pattern compilepass =Pattern.compile( pass ); 
+		 Matcher matchpass= compilepass.matcher(pwd);
+		 
+	     if(match.matches() && matchpass.matches()) {
 	    	 request.setAttribute("user", user);
 	    	 request.getRequestDispatcher("LoginSuccess.jsp").forward(request, response);
 	     }else {
 	    	 RequestDispatcher rd= getServletContext().getRequestDispatcher("/Login.html");
 	    	 PrintWriter out = response.getWriter();
-	    	 out.println("<font color =red> USERNAME is wrong.</font>");
+	    	 out.println("<font color =red> USERNAME or PASSWORD  is wrong.</font>");
 	    	 rd.include(request, response);
 	     }
 	
